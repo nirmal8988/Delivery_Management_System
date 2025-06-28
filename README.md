@@ -136,16 +136,20 @@ A **Delivery Management System using Python and Django**:
 
 ---
 ## Screenshots
-
-<img width="1501" alt="Screenshot 2025-06-29 at 12 10 53 AM" src="https://github.com/user-attachments/assets/71fff5eb-5360-447a-9d68-6ffd99b91c3e" />
-
-<img width="1501" alt="Screenshot 2025-06-29 at 12 09 16 AM" src="https://github.com/user-attachments/assets/e837fc8f-8b0c-4530-accf-15ef2f01df9d" />
-
-<img width="1501" alt="Screenshot 2025-06-29 at 12 09 08 AM" src="https://github.com/user-attachments/assets/1bef531a-1fd1-4e09-9cab-90aefeee3c0c" />
+<img width="1501" alt="Screenshot 2025-06-29 at 12 07 57 AM" src="https://github.com/user-attachments/assets/b292114a-6553-4bcf-8c62-3efe9b9fc1d2" />
 
 <img width="1501" alt="Screenshot 2025-06-29 at 12 08 04 AM" src="https://github.com/user-attachments/assets/2eae3eda-1c14-4792-8221-f43bb436fa89" />
 
-<img width="1501" alt="Screenshot 2025-06-29 at 12 07 57 AM" src="https://github.com/user-attachments/assets/b292114a-6553-4bcf-8c62-3efe9b9fc1d2" />
+<img width="1501" alt="Screenshot 2025-06-29 at 12 09 08 AM" src="https://github.com/user-attachments/assets/1bef531a-1fd1-4e09-9cab-90aefeee3c0c" />
+
+<img width="1501" alt="Screenshot 2025-06-29 at 12 09 16 AM" src="https://github.com/user-attachments/assets/e837fc8f-8b0c-4530-accf-15ef2f01df9d" />
+
+<img width="1501" alt="Screenshot 2025-06-29 at 12 10 53 AM" src="https://github.com/user-attachments/assets/71fff5eb-5360-447a-9d68-6ffd99b91c3e" />
+
+
+
+
+
 
 <img width="1501" alt="Screenshot 2025-06-29 at 12 07 52 AM" src="https://github.com/user-attachments/assets/d8f0bf15-444f-4e1b-82fa-78ce829526ef" />
 
