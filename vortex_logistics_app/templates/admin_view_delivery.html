@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Deliveries</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(rgba(50, 42, 0, 0.633), rgba(123, 97, 3, 0.353)), url(keith-misner-h0Vxgz5tyXA-unsplash.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #333;
+            height: 100vh; /* Full viewport height */
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #555;
+        }
+
+        .content {
+            text-align: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Basic anchor tag styles */
+        .content a {
+            display: inline-block;
+            font-size: 16px;
+            text-decoration: none;
+            color: #000;
+            background-color: #fff;
+            padding: 10px 20px;
+            margin: 5px 0;
+            border: 1px solid #000;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        /* Hover state for anchor tags */
+        .content a:hover {
+            background-color: #000;
+            color: #fff;
+            border-color: #000;
+        }
+        
+        /* Active state for anchor tags */
+        .content a:active {
+            background-color: #333;
+            color: #fff;
+            border-color: #333;
+        }
+        
+        /* Focus state for accessibility */
+        .content a:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deliveriesTable = document.getElementById('deliveriesTable').getElementsByTagName('tbody')[0];
+
+            // Check if there are saved deliveries in localStorage
+            const savedDeliveries = JSON.parse(localStorage.getItem('deliveries')) || [];
+
+            // Function to add delivery to the table
+            const addDeliveryToTable = (delivery) => {
+                const row = deliveriesTable.insertRow();
+                row.insertCell(0).innerText = delivery.recipient;
+                row.insertCell(1).innerText = delivery.address;
+                row.insertCell(2).innerText = delivery.date;
+            };
+
+            // Load saved deliveries into the table
+            savedDeliveries.forEach(addDeliveryToTable);
+        });
+    </script>
+</head>
+<body>
+    <h1>View Deliveries</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'admin_home' %}">Home</a></li>
+            <li><a href="{% url 'add_delivery' %}">Add Delivery</a></li>
+        </ul>
+    </nav>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Recipient Name</th>
+                <th>Mobile Number</th>
+                <th>Pickup</th>
+                <th>Destination</th>
+                <th>Product Type</th>
+                <th>Distance</th>
+                <th>Weight</th>
+                <th>Delivery Charge</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for delivery in deliveries %}
+                <tr>
+                    <td>{{ delivery.id }}</td>
+                    <td>{{ delivery.recipient_name }}</td>
+                    <td>{{ delivery.recipient_mobile_number }}</td>
+                    <td>{{ delivery.pickup }}</td>
+                    <td>{{ delivery.destination }}</td>
+                    <td>{{ delivery.product_type }}</td>
+                    <td>{{ delivery.distance }} km</td>
+                    <td>{{ delivery.weight }}</td>
+                    <td>₹ {{ delivery.delivery_charge }}</td>
+                    <td>{{ delivery.status }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

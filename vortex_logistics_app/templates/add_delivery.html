@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Delivery</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: linear-gradient(rgba(50, 42, 0, 0.633), rgba(123, 97, 3, 0.353)), url(keith-misner-h0Vxgz5tyXA-unsplash.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #333;
+            align-items: center;
+            height: 200vh;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #555;
+        }
+
+        .form {
+            display: flex;
+            justify-content: center;
+        }
+
+        form {
+            text-align: left;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input,
+        select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px 24px;
+            margin: 10px 0;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        button > a {
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+
+        .btw_Btn {
+            display: block;
+            margin: 10px auto; /* Center button */
+            width: 40%; /* Let the button size itself automatically */
+            padding: 6px 12px; /* Smaller padding for a more compact look */
+            font-size: 0.875rem; /* Reduce font size */
+            border-radius: 18px;
+            text-align: center;
+        }        
+        
+        .distance-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .box {
+            margin: 10px 0;
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Delivery</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'admin_home' %}">Home</a></li>
+            <li><a href="{% url 'admin_view_delivery' %}">View Deliveries</a></li>
+        </ul>
+    </nav>
+    <div class="form">
+        <form id="deliveryForm" method="post" action="{% url 'payment' %}">
+            {% csrf_token %}
+            <label for="r_name">Name:</label>
+            <input type="text" id="r_name" name="recipient_name" placeholder="Enter recipient's name" required>
+            
+            <label for="r_number">Mobile Number:</label>
+            <input type="tel" id="r_number" name="recipient_mobile_number" placeholder="Enter recipient's mobile number" required>
+            
+            <label for="pickup">Pickup:</label>
+            <input type="text" id="pickup" name="pickup" placeholder="Enter pickup address" required>
+            
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" name="destination" placeholder="Enter destination address" required>
+
+            <button class="btw_Btn" type="button" onclick="getCoordinates()">Get Coordinates</button>
+
+            <label for="pickup_coordinates">Pickup Coordinates:</label>
+            <input type="text" id="pickup_coordinates" name="pickup_coordinates" placeholder="Pickup coordinates" readonly>
+
+            <label for="destination_coordinates">Destination Coordinates:</label>
+            <input type="text" id="destination_coordinates" name="destination_coordinates" placeholder="Destination coordinates" readonly>
+
+            <button class="btw_Btn" type="button" onclick="getDistance()">Get Distance</button>
+
+            <label for="distance">Distance(km):</label>
+            <input type="text" id="distance" name="distance" placeholder="Distance" readonly>
+            
+            <label for="productType">Product Type:</label>
+            <select id="productType" name="product_type" required>
+                <option value="" disabled selected>Select a product type</option>
+                <option value="Documents">Documents</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Food">Food</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Gifts">Gifts</option>
+                <option value="Health">Health & Beauty Products</option>
+                <option value="Office Supplies">Office Supplies</option>
+                <option value="Industrial Parts">Industrial & Automotive Parts</option>
+                <option value="Medical Supplies">Medical Supplies</option>
+            </select>
+
+            <label for="weight">Weight:</label>
+            <select id="weight" name="weight" required>
+                <option value="" disabled selected>Select a weight range</option>
+                <option value="5005">500g - 5kg</option>
+                <option value="510">5kg - 10kg</option>
+                <option value="1025">10kg - 25kg</option>
+            </select>
+
+            <button class="btw_Btn" type="button" onclick="calculateDeliveryCharge()">Get Delivery Cost</button>
+            <label for="calculate_delivery_charge">Delivery Cost:</label>
+            <input type="hidden" id="hidden_delivery_charge" name="hidden_delivery_charge">
+            <input type="text" id="calculate_delivery_charge" name="calculate_delivery_charge" placeholder="Delivery cost" readonly>
+
+
+            <button type="submit">Proceed to Pay</button>
+        </form>
+    </div>
+
+    <script>
+        function getCoordinates() {
+            const pickup = document.getElementById('pickup').value;
+            const destination = document.getElementById('destination').value;
+
+            fetch(`/get_coordinates/?place_name=${encodeURIComponent(pickup)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.coordinates) {
+                        document.getElementById('pickup_coordinates').value = `Latitude: ${data.coordinates[0]}, Longitude: ${data.coordinates[1]}`;
+                    } else {
+                        document.getElementById('pickup_coordinates').value = 'Pickup location not found';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('pickup_coordinates').value = 'Error retrieving pickup coordinates';
+                });
+
+            fetch(`/get_coordinates/?place_name=${encodeURIComponent(destination)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.coordinates) {
+                        document.getElementById('destination_coordinates').value = `Latitude: ${data.coordinates[0]}, Longitude: ${data.coordinates[1]}`;
+                    } else {
+                        document.getElementById('destination_coordinates').value = 'Destination location not found';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('destination_coordinates').value = 'Error retrieving destination coordinates';
+                });
+        }
+
+        function getDistance() {
+            const pickupCoords = document.getElementById('pickup_coordinates').value;
+            const destinationCoords = document.getElementById('destination_coordinates').value;
+        
+            // Extract latitude and longitude from the coordinates (assuming the format is 'Latitude: x, Longitude: y')
+            const pickupLatLng = pickupCoords.match(/Latitude: ([\d.-]+), Longitude: ([\d.-]+)/);
+            const destinationLatLng = destinationCoords.match(/Latitude: ([\d.-]+), Longitude: ([\d.-]+)/);
+        
+            if (pickupLatLng && destinationLatLng) {
+                const pickupLat = pickupLatLng[1];
+                const pickupLng = pickupLatLng[2];
+                const destLat = destinationLatLng[1];
+                const destLng = destinationLatLng[2];
+        
+                const url = `https://graphhopper.com/api/1/route?point=${pickupLat},${pickupLng}&point=${destLat},${destLng}&vehicle=car&locale=en&calc_points=true&key=a7b0bcad-486c-4cf3-9d68-dade7eadb6f2`;
+        
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.paths && data.paths.length > 0) {
+                            const distanceInMeters = data.paths[0].distance;
+                            const distanceInKm = (distanceInMeters / 1000).toFixed(2);
+                            document.getElementById('distance').value = `${distanceInKm}`;
+                        } else {
+                            document.getElementById('distance').value = 'Distance not found';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching distance:', error);
+                        document.getElementById('distance').value = 'Error retrieving distance';
+                    });
+            } else {
+                document.getElementById('distance').value = 'Invalid coordinates';
+            }
+        }
+
+        function calculateDeliveryCharge() {
+            const distance = document.getElementById('distance').value;
+            const weight = document.getElementById('weight').value;
+        
+            fetch('/calculate_delivery_charge/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'  // CSRF token
+                },
+                body: new URLSearchParams({
+                    'distance': distance,
+                    'weight': weight
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.delivery_charge) {
+                    const deliveryCharge = `₹${data.delivery_charge.toFixed(2)}`;
+                    document.getElementById('calculate_delivery_charge').value = deliveryCharge;
+                    document.getElementById('hidden_delivery_charge').value = data.delivery_charge.toFixed(2);
+                } else {
+                    document.getElementById('calculate_delivery_charge').value = 'Error calculating charge';
+                    if (data.error) {
+                        alert(data.error);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('calculate_delivery_charge').value = 'Error calculating charge';
+            });
+        }
+        
+    </script>
+</body>
+</html>
